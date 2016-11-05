@@ -1,0 +1,15 @@
+{
+  "name": "lbb-api",
+  "version": "0.0.1",
+  "description": "REST API for LinearBench Build",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Xudong Liu",
+  "license": "ISC",
+  "dependencies": {
+    "hapi": "^15.2.0",
+    "mongoose": "^4.6.5"
+  }
+}
