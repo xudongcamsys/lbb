@@ -1,5 +1,8 @@
 version: "2"
 
+#########################################################
+####                   Services                      ####
+#########################################################
 services:
     ubuntubase:
         build: ./ubuntu-base
@@ -15,9 +18,9 @@ services:
         labels:
           container_group: monitoring
         logging:
-          driver: gelf
+          driver: syslog
           options:
-            gelf-address: udp://localhost:12201
+            syslog-address: udp://${LOGSTASH_ADDR}:5000
             labels: container_group
 
     api:
@@ -33,9 +36,9 @@ services:
         labels:
           container_group: monitoring
         logging:
-          driver: gelf
+          driver: syslog
           options:
-            gelf-address: udp://localhost:12201
+            syslog-address: udp://${LOGSTASH_ADDR}:5000
             labels: container_group
     mongodb:
         build: ./mongodb
@@ -48,9 +51,9 @@ services:
         labels:
           container_group: monitoring
         logging:
-          driver: gelf
+          driver: syslog
           options:
-            gelf-address: udp://localhost:12201
+            syslog-address: udp://${LOGSTASH_ADDR}:5000
             labels: container_group
 
     nginxreverseproxy:
@@ -69,7 +72,17 @@ services:
         labels:
           container_group: monitoring
         logging:
-          driver: gelf
+          driver: syslog
           options:
-            gelf-address: udp://localhost:12201
+            syslog-address: udp://${LOGSTASH_ADDR}:5000
             labels: container_group
+
+#########################################################
+####                   Networking                    ####
+#########################################################
+
+# Extra-network is necessary to have a dedicated IP for Logstash to forwards log to.
+networks:
+  default:
+    external:
+      name: monitoring_logging
